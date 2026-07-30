@@ -1,0 +1,19 @@
+{{- /*
+  Renders LaTeX to HTML+MathML at build time via KaTeX (embedded in Hugo), so
+  no client-side JS is involved. HTML output rather than MathML-only because
+  browsers lay out `CD` commutative diagrams badly in native MathML; it costs
+  the vendored stylesheet in static/css/katex/.
+*/ -}}
+{{- $tex := .Inner -}}
+{{- if eq .Type "block" -}}
+  {{- $tex = strings.TrimSuffix "$$" (strings.TrimPrefix "$$" $tex) -}}
+  {{- $tex = strings.TrimSuffix "\\]" (strings.TrimPrefix "\\[" $tex) -}}
+  {{- $opts := dict "displayMode" true "output" "htmlAndMathml" "throwOnError" false "errorColor" "#cc0000" -}}
+  {{/* A span, not a div: display math often sits inside a paragraph. */}}
+  <span class="math-block">{{ transform.ToMath $tex $opts }}</span>
+{{- else -}}
+  {{- $tex = strings.TrimSuffix "$" (strings.TrimPrefix "$" $tex) -}}
+  {{- $tex = strings.TrimSuffix "\\)" (strings.TrimPrefix "\\(" $tex) -}}
+  {{- $opts := dict "output" "htmlAndMathml" "throwOnError" false "errorColor" "#cc0000" -}}
+  {{ transform.ToMath $tex $opts }}
+{{- end -}}

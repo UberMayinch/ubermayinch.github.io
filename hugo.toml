@@ -1,0 +1,37 @@
+baseURL = "https://ubermayinch.github.io/blog/"
+languageCode = "en-us"
+title = "rhizoMorphic"
+
+enableEmoji = true
+# Existing post URLs are mixed-case (/posts/2024-9-27-Variational-Bayes/).
+disablePathToLower = true
+disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
+
+[params]
+  author = "Chinmay Sharma"
+  email = "chinmay.sharma@research.iiit.ac.in"
+  description = "rhizoMorphic — Chinmay Sharma's Technical Blog."
+
+[markup]
+  [markup.highlight]
+    # Inline styles: no separate syntax stylesheet to maintain.
+    noClasses = true
+    style = "github"
+    lineNos = false
+    tabWidth = 2
+
+  [markup.goldmark.renderer]
+    # Posts contain hand-written HTML (e.g. <br>, <sup>) from the Jekyll era.
+    unsafe = true
+
+  [markup.goldmark.extensions.passthrough]
+    enable = true
+    [markup.goldmark.extensions.passthrough.delimiters]
+      block = [['\[', '\]'], ['$$', '$$']]
+      inline = [['\(', '\)'], ['$', '$']]
+
+[menus]
+  [[menus.main]]
+    name = "About"
+    pageRef = "/about"
+    weight = 10

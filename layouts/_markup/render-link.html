@@ -1,0 +1,10 @@
+{{- /*
+  Rewrites root-relative links (/assets/...) through relURL so they keep
+  working under the /blog/ base path and in local preview alike. relURL leaves
+  a leading slash untouched, so strip it before handing the path over.
+*/ -}}
+{{- $dest := string .Destination -}}
+{{- if hasPrefix $dest "/" -}}
+  {{- $dest = strings.TrimPrefix "/" $dest | relURL -}}
+{{- end -}}
+<a href="{{ $dest }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if hasPrefix (string .Destination) "http" }} target="_blank" rel="noopener"{{ end }}>{{ .Text }}</a>
